@@ -3,7 +3,7 @@ import Home from "./Home";
 import Profile from "./Profile";
 import CompanyList from "./CompanyList";
 
-import Company from "./Company";
+import CompanyDetail from "./CompanyDetail";
 
 import JobsList from "./JobsList";
 
@@ -29,7 +29,7 @@ const Routes = () => (
             <CompanyList />
         </Route>
         <Route exact path="/companies/:handle">
-            <Company />
+            <CompanyDetail />
         </Route>
         <Route exact path="/jobs">
             <JobsList />
