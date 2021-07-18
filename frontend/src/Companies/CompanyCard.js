@@ -6,7 +6,7 @@ const CompanyCard = ({ company: { handle, name, description, logoUrl } }) => (
     <div className="CompanyCard">
         {name}
         {logoUrl ? 
-            <img src={logoUrl} width="100px" />
+            <img src={logoUrl} alt="" width="100px"  />
             : null}
         <Link to={`/companies/${handle}`}>View Company</Link>
     </div> 

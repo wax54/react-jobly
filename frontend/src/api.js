@@ -36,6 +36,19 @@ class JoblyApi {
 
   // Individual API routes
 
+
+  /** register a user { username, password, firstName, lastName, email }*/
+  static async register(user) {
+    let res = await this.request(`auth/register`, user, "post");
+    return res.token;
+  }
+
+  /** login a user { username, password }*/
+  static async login(user) {
+    let res = await this.request(`auth/token`, user, "post");
+    return res.token;
+  }
+
   /** Get details on a company by handle. */
   static async getCompany(handle) {
     let res = await this.request(`companies/${handle}`);

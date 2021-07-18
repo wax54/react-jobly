@@ -8,9 +8,16 @@ const Search = ({ search }) => {
         setSearchTerm(term);
         search(term);
     }
+
 return (
     <form className="Search">
-        <input type="text" name="search" value={searchTerm} onChange={ handleChange }/> 
+        <input 
+            type="text" 
+            name="search" 
+            value={searchTerm} 
+            placeholder="Search" 
+            onChange={ handleChange }
+        /> 
     </form>
 )};
 export default Search
