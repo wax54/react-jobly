@@ -1,15 +1,13 @@
 import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
-import Profile from "./Profile";
-import CompanyList from "./CompanyList";
+import Profile from "./User/Profile";
+import CompanyList from "./Companies/CompanyList";
+import CompanyDetail from "./Companies/CompanyDetail";
+import AllJobs from "./Jobs/AllJobs";
 
-import CompanyDetail from "./CompanyDetail";
+import Login from "./Forms/Login";
 
-import JobsList from "./JobsList";
-
-import Login from "./Login";
-
-import Signup from "./Signup";
+import Signup from "./Forms/Signup";
 
 
 
@@ -28,11 +26,13 @@ const Routes = () => (
         <Route exact path="/companies">
             <CompanyList />
         </Route>
+
         <Route exact path="/companies/:handle">
             <CompanyDetail />
         </Route>
+
         <Route exact path="/jobs">
-            <JobsList />
+            <AllJobs />
         </Route>
         <Route exact path="/login">
             <Login />
