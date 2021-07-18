@@ -5,11 +5,12 @@ import JoblyApi from './api';
 
 import './App.css';
 import { useEffect, useState } from 'react';
+import { useLocalStorageState } from './Hooks';
 
 function App() {
-
   const [user, setUser] = useState({});
-  const [token, setToken] = useState("");
+  const [token, setToken] = useLocalStorageState("authToken", "");
+
   useEffect(() =>{
     const updateCurrentUser = async () => {
       try {
@@ -47,7 +48,6 @@ function App() {
   };
 
   const logoutUser = () => {
-    setUser({});
     setToken("");
   };
 
