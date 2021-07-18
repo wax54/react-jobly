@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import jwt from "jsonwebtoken";
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 /** API Class.
@@ -36,6 +36,12 @@ class JoblyApi {
 
   // Individual API routes
 
+  /** gets data on the current user*/
+  static async getUserData() {
+    const user = jwt.decode(JoblyApi.token);
+    let res = await this.request(`users/${user.username}`);
+    return res.user;
+  }
 
   /** register a user { username, password, firstName, lastName, email }*/
   static async register(user) {

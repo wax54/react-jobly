@@ -11,7 +11,7 @@ const NavBar = () => {
             <NavLink exact to="/profile">   Profile     </NavLink>
             <NavLink exact to="/companies"> companies   </NavLink>
             <NavLink exact to="/jobs">      jobs        </NavLink>
-            {user ? 
+            {user.username ? 
                 <>  
                     <span className="NavBar-greeting"> 
                         Hello, {user.username}! 

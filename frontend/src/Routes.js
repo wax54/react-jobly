@@ -1,9 +1,6 @@
 
-import React, { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-
-
-import UserContext from "./UserContext";
+import React from "react";
+import { Switch, Route } from "react-router-dom";
 
 import Home from "./Home";
 import Profile from "./User/Profile";
@@ -15,7 +12,6 @@ import Signup from "./Forms/Signup";
 
 
 const Routes = () => {
-    const { logoutUser } = useContext(UserContext);
     return (
         <Switch>
             <Route exact path="/">

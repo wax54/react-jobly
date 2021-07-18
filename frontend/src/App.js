@@ -4,23 +4,34 @@ import UserContext from './UserContext';
 import JoblyApi from './api';
 
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
 
-  const [user, setUser] = useState(false);
-  
-  console.log("user in App", user);
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState("");
+  useEffect(() =>{
+    const updateCurrentUser = async () => {
+      try {
+        const userData = await JoblyApi.getUserData()
+        setUser(userData);
+      } catch {
+        setUser({});
+      }
+    }
+    JoblyApi.token = token;
+    updateCurrentUser()
+  }, [token])
+
 
   const registerUser = async (userData) => {
     try { 
       const token = await JoblyApi.register(userData);
-      userData.token = token;
-      setUser(userData);
-      return {status: true, user: userData};
+      setToken(token);
+      return { status: true };
     } catch (e) {
       console.error(e);
-      return {status: false, errors: e};
+      return { status: false, errors: e };
     }
   } ;
   
@@ -28,16 +39,16 @@ function App() {
   const loginUser = async (userData) => {
     try {
       const token = await JoblyApi.login(userData);
-      userData.token = token;
-      setUser(userData);
-      return { status: true, user: userData };
+      setToken(token);
+      return { status: true };
     } catch (e) {
       return { status: false, errors: e };
     }
   };
 
   const logoutUser = () => {
-    setUser(false);
+    setUser({});
+    setToken("");
   };
 
   return (

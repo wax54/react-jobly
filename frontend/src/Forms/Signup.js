@@ -6,10 +6,11 @@ import UserContext from "../UserContext";
 import SimpleForm from "./SimpleForm";
 
 const SignupForm  = () => {
-    const { registerUser } = useContext(UserContext);
     const [ errors, setErrors ] = useState([]);
-
     const history = useHistory();
+
+    const { registerUser } = useContext(UserContext);
+
     const signupInputs = {
         username : "",
         password : "", 
@@ -17,6 +18,7 @@ const SignupForm  = () => {
         lastName : "", 
         email : ""
     }
+
     const signup = async userData => {
         const res = await registerUser(userData);
         if (res.status) {
@@ -25,13 +27,13 @@ const SignupForm  = () => {
             setErrors(res.errors);
         }
     }
+
     return <SimpleForm 
         className="Signup"
         INITIAL_STATE={signupInputs}
         onSubmit={signup}
         submitText="Sign Up!"
         errors={errors}
-
     />
 };
 export default SignupForm
