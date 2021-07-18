@@ -8,7 +8,8 @@ import { useState } from 'react';
 
 function App() {
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(false);
+  
   console.log("user in App", user);
 
   const registerUser = async (userData) => {
@@ -35,9 +36,13 @@ function App() {
     }
   };
 
+  const logoutUser = () => {
+    setUser(false);
+  };
+
   return (
     <div className="App">
-      <UserContext.Provider value={{user, registerUser, loginUser}} >
+      <UserContext.Provider value={{user, registerUser, loginUser, logoutUser}} >
         <NavBar />
         <Routes />
       </UserContext.Provider>

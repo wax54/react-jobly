@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import UserContext from "../UserContext";
 import SimpleForm from "./SimpleForm";
 
-const Login = () => {
+const LoginForm = () => {
     const { loginUser } = useContext(UserContext);
     const [ errors, setErrors] = useState([]);
 
@@ -17,8 +17,8 @@ const Login = () => {
     }
 
     const login = async ({ username, password }) => {
-        const res = await loginUser({username, password});
-        if(res.status){
+        const res = await loginUser({ username, password });
+        if (res.status) {
             history.push('/');
         } else {
             setErrors(res.errors);
@@ -33,4 +33,4 @@ const Login = () => {
         errors={errors}
     />
 };
-export default Login
+export default LoginForm

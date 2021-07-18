@@ -1,9 +1,37 @@
-import React from "react";
+import './Signup.css';
 
-const Signup = () => (
-    <div className="Signup">
-        Hi Im the Signup Component
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router";
+import UserContext from "../UserContext";
+import SimpleForm from "./SimpleForm";
 
-    </div> 
-);
-export default Signup
+const SignupForm  = () => {
+    const { registerUser } = useContext(UserContext);
+    const [ errors, setErrors ] = useState([]);
+
+    const history = useHistory();
+    const signupInputs = {
+        username : "",
+        password : "", 
+        firstName : "", 
+        lastName : "", 
+        email : ""
+    }
+    const signup = async userData => {
+        const res = await registerUser(userData);
+        if (res.status) {
+            history.push('/');
+        } else {
+            setErrors(res.errors);
+        }
+    }
+    return <SimpleForm 
+        className="Signup"
+        INITIAL_STATE={signupInputs}
+        onSubmit={signup}
+        submitText="Sign Up!"
+        errors={errors}
+
+    />
+};
+export default SignupForm
