@@ -39,6 +39,13 @@ class JoblyApi {
 
   // Individual API routes
 
+  /** sends an app in for the current user to a job*/
+  static async applyToJob(jobId) {
+    const user = jwt.decode(JoblyApi.token);
+    let res = await this.request(`users/${user.username}/jobs/${jobId}`, {}, 'post');
+    return (res.applied == jobId);
+  }
+
   /** gets data on the current user*/
   static async getUserData() {
     const user = jwt.decode(JoblyApi.token);

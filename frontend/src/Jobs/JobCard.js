@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "../UserContext";
 import "./JobCard.css";
 
 
-const JobCard = ({ job }) => (
-    <div className="JobCard">
-        {job.id}<br/>
-        {job.title}<br />
+const JobCard = ({ job }) => { 
+    const {user, applyToJob} = useContext(UserContext);
+    const apply = () => {
+        applyToJob(job.id);
+    }
+    let applicationButton;
 
-        {job.equity}<br />
+    if(user.applications.find(id => job.id === id)){
+        applicationButton = <button disabled>Already Applied!</button>
+    } else {
+        applicationButton = <button onClick={apply}>Apply!</button>
+    }
 
-        {job.salary}<br />
+    return (
+        <div className="JobCard">
+            <div>{job.id}</div>
+            <div>{job.title}</div>
 
-        {job.companyHandle}<br />
+            <div>{ job.equity }</div >
 
-    </div> 
-);
+            <div>{ job.salary }</div >
+
+            <div>{ job.companyHandle }</div>
+            { applicationButton }
+
+        </div> 
+    )
+};
 export default JobCard

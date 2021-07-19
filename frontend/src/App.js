@@ -11,15 +11,18 @@ function App() {
   const [user, setUser] = useLocalStorageState("userData", {});
   const [token, setToken] = useLocalStorageState("authToken", "");
 
-  useEffect(() =>{
-    const updateCurrentUser = async () => {
-      try {
-        const userData = await JoblyApi.getUserData()
-        setUser(userData);
-      } catch {
-        setUser({});
-      }
+  const updateCurrentUser = async () => {
+    try {
+      const userData = await JoblyApi.getUserData()
+      setUser(userData);
+    } catch {
+      setUser({});
     }
+  }
+
+  console.log('hello' ,user)
+
+  useEffect(() =>{
     JoblyApi.token = token;
     updateCurrentUser()
   }, [token])
@@ -57,8 +60,24 @@ function App() {
       const user = await JoblyApi.updateUser({...userData, passwordVerification: undefined});
       setUser(user);
       return { status: true };
+
     } catch (e) {
       return { status: false, errors: e };
+    }
+  };
+
+  const applyToJob = async (jobId) => {
+    try {
+      const success = await JoblyApi.applyToJob(jobId);
+      if(success) {
+        updateCurrentUser();
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (e) {
+      return false;
     }
   };
 
@@ -70,7 +89,7 @@ function App() {
 
   return (
     <div className="App">
-      <UserContext.Provider value={{user, registerUser, loginUser, logoutUser, updateUser, isLoggedIn}} >
+      <UserContext.Provider value={{user, registerUser, loginUser, logoutUser, updateUser, applyToJob, isLoggedIn}} >
         <NavBar />
         <Routes />
       </UserContext.Provider>
