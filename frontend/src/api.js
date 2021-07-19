@@ -26,11 +26,14 @@ class JoblyApi {
         : {};
 
     try {
-      return (await axios({ url, method, data, params, headers })).data;
+      const res = (await axios({ url, method, data, params, headers }));
+      return res.data;
     } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+      if(err.response){
+        console.error("API Error:", err.response);
+        let message = err.response.data.error.message;    
+        throw Array.isArray(message) ? message : [message];
+      } else throw ["DB CONNECTION ERROR"];
     }
   }
 
@@ -41,6 +44,26 @@ class JoblyApi {
     const user = jwt.decode(JoblyApi.token);
     let res = await this.request(`users/${user.username}`);
     return res.user;
+  }
+
+  /** verifies whether or not the password is valid for the current user*/
+  static async verifyPassword(password) {
+    try {
+      const username = jwt.decode(JoblyApi.token).username;
+      let res = await this.request(`auth/token`, {username, password}, "post");
+      if(res.token) return true;
+      else return false;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  /** updates the user, only can include { firstName, lastName, password, email }*/
+  static async updateUser(userData) {
+      const user = jwt.decode(JoblyApi.token);
+      const res = await this.request(`users/${user.username}`, userData, "patch");
+      return res.user
   }
 
   /** register a user { username, password, firstName, lastName, email }*/

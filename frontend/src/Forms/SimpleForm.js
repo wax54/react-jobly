@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
+import './SimpleForm.css'
+
 const SimpleForm = ( {className, INITIAL_STATE, onSubmit, submitText="Submit", errors=[]} ) => {
-    
     const [formData, setFormData] = useState(INITIAL_STATE);
-    const handleChange = evt => setFormData(data => ({...data, [evt.target.name] : evt.target.value}))
+    const handleChange = evt => setFormData(data => {
+        return {...data, [evt.target.name] : evt.target.value}
+    })
     const handleSubmit = evt => {
         evt.preventDefault(); 
         onSubmit(formData);
@@ -11,13 +14,13 @@ const SimpleForm = ( {className, INITIAL_STATE, onSubmit, submitText="Submit", e
     return (
         <form className={className} onSubmit={handleSubmit}>
             {errors.map(message => 
-                <div key={message} className={`${className}-error`}>
+                <div key={message} className={`${className}-error form-error`}>
                     {message}
                 </div> 
             )}
             {Object.keys(INITIAL_STATE).map(name => (
-                <span key={name}>
-                    <label htmlFor={name}> {name} </label>
+                <div key={name}>
+                    <label htmlFor={name}> {name}: </label>
                     <input
                         type="text"
                         name={name}
@@ -25,7 +28,7 @@ const SimpleForm = ( {className, INITIAL_STATE, onSubmit, submitText="Submit", e
                         value={formData[name]}
                         onChange={handleChange} 
                     />
-                </span>
+                </div>
             ))}
             <button>{submitText}</button>
         </form> 

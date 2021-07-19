@@ -4,11 +4,11 @@ import UserContext from './UserContext';
 import JoblyApi from './api';
 
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocalStorageState } from './Hooks';
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useLocalStorageState("userData", {});
   const [token, setToken] = useLocalStorageState("authToken", "");
 
   useEffect(() =>{
@@ -43,6 +43,21 @@ function App() {
       setToken(token);
       return { status: true };
     } catch (e) {
+
+      console.error(e);
+      return { status: false, errors: e };
+    }
+  };
+
+  const updateUser = async (userData) => {
+    const verified = await JoblyApi.verifyPassword(userData.passwordVerification);
+    if (!verified)
+      return { status: false, errors: ["Password Not Valid"] };
+    try{
+      const user = await JoblyApi.updateUser({...userData, passwordVerification: undefined});
+      setUser(user);
+      return { status: true };
+    } catch (e) {
       return { status: false, errors: e };
     }
   };
@@ -51,9 +66,11 @@ function App() {
     setToken("");
   };
 
+  const isLoggedIn = token.length ? true : false;
+
   return (
     <div className="App">
-      <UserContext.Provider value={{user, registerUser, loginUser, logoutUser}} >
+      <UserContext.Provider value={{user, registerUser, loginUser, logoutUser, updateUser, isLoggedIn}} >
         <NavBar />
         <Routes />
       </UserContext.Provider>

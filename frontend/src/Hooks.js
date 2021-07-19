@@ -2,12 +2,16 @@ import { useState } from "react";
 
 const useLocalStorageState = (storageName, init) => {
 
+    const [state, setState] = useState(getState());
+    storeState(state);
+
     function getState () {
-        return localStorage[storageName] || init;
+        const storedState = localStorage[storageName]
+        return  storedState ? JSON.parse(storedState) : init;
     }
 
     function storeState(currState) {
-        localStorage[storageName] = currState;
+        localStorage[storageName] = JSON.stringify(currState);
     }
 
     function  updateState (newState) {
@@ -15,8 +19,6 @@ const useLocalStorageState = (storageName, init) => {
         storeState(newState)
     }
 
-    const [state, setState] = useState(getState());
-    storeState(state);
     return [state, updateState]
 };
 
